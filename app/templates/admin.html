@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+
+<script src="../static/js/admin.js"></script>
+{% block body %}
+<div class="row">
+    <div class="col-2" style="background-color: #25283D;position: fixed; z-index: 999; ">
+        <section id="left-container" style="padding: 0;"> 
+            <section  class="d-flex flex-column" >
+                <div style="height: 90vh;">
+                    <div class="auth-container" style="padding-left: 11%; padding-right:10%;">
+                      <header style="color: white; padding-top: 15%;"><h1 style="font-size:31px;font-family: 'Roboto', sans-serif; font-weight: 400; "><a href="/"> <strong style="color:white;">Upscale.io</strong></a></h1>
+                        <div style="margin-top:50px;">
+                            <nav class="tab-nav">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="pill" href="#admin" style="padding: 0; display: block;font-size: larger;">Users</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#menu2" style="padding: 0; display: block;font-size: larger;">Discussion</a>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a class="nav-link" data-toggle="pill" href="#menu1" style="padding: 0; display: block;font-size: larger;">Article</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#msg" style="padding: 0; display: block;font-size: larger;">Message</a>
+                                      </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"  href="/profile" style="padding: 0; display: block; font-size: larger;"><i class="bi bi-arrow-left"></i> Back</a>
+                                      </li>
+                                    <li class="nav-item" id="logout">
+                                        <a href="/logout" class="nav-link" style="padding: 0; display: block;font-size: large;">Log out</a>
+                                    </li>
+                                  </ul>  
+                                
+                           
+                            </nav>
+                        </div>
+                        </header>
+                    </div>
+            
+                </div>
+            
+        </section>
+        </section>
+    </div>
+    <div class="col-10 rightBar">
+        <div class="tab-content">
+            <div class="tab-pane container active" id="admin">
+                <div class="auth-container2" style="width: 100%; margin-left:19%; margin-right:20% ;height:100%;margin-top: 5%;">
+        <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3" style="color: black; background-color:inherit; width: 107%;">
+    
+                <h2>Manage <b>Users </b> <button type="button" class="btn btn-success float-right" data-toggle="modal"
+                    data-target="#mymodal">Add New User</button> </h2>
+
+
+            {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+            {% for message in messages %}
+
+            <div class="alert alert-success alert-dismissable" role="alert">
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+
+                    <span aria-hidden="true">x</span>
+
+                </button>
+
+
+                {{message}}
+                </div>
+                
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+
+            <table id="datatable-admin" class="table table-striped" style="width:100%;">
+                <thead>
+                    <tr style="color: black;">
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Activated</th>
+                        <th>DateTime</th>
+                        <th>Name</th>
+                        <th>Admin</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in alluser %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.username}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{{row.activated}}</td>
+                        <td>{{row.dateTime}}</td>
+                        <td>{{row.name}}</td>
+                        <td>{{row.isAdmin}}</td>
+                        <td>
+                            <a  style="display: inline-block;" href="/admin/update/{{row.id}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                            <a  style="display: inline-block;" href="/admin/delete/{{row.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                        </td>
+                    </tr>
+                    <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+
+                            <div class="modal-content">
+
+
+                                <div class="modal-header">
+
+
+                                    <h4 class="modal-title">Update Information</h4>
+
+
+                                </div>
+
+
+                                <div class="modal-body">
+
+
+                                    <form action="{{url_for('update')}}" method="POST">
+                                        
+                                        <div class="form-group">
+
+
+                                            <label>Name:</label>
+
+                                            <input type="text" class="form-control" name="name" value="{{row.name}}">
+
+
+                                        </div>
+
+                                        <div class="form-group">
+
+
+                                            <label>Uername::</label>
+                                            <input type="hidden" name="id" value="{{row.id}}">
+
+                                            <input type="text" class="form-control" name="username" value="{{row.name}}">
+
+
+                                        </div>
+
+
+
+                                        <div class="form-group">
+
+
+                                            <label>Email:</label>
+
+                                            <input type="text" class="form-control" name="email" value="{{row.email}}">
+
+
+                                        </div>
+
+                                        <label for="admin">Admin</label>
+                                        <select  class="form-control model" id="admin" name="admin" style="display: inline-block; width: 150px;">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+
+                                        <label for="activated">Activated</label>
+                                        <select  class="form-control model" id="avtivated" name="activated" style="display: inline-block; width: 150px;">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+
+                                        <div class="form-group">
+
+
+                                            <button class="btn btn-primary" type="submit">Update</button>
+
+
+                                        </div>
+
+
+                                    </form>
+
+
+                                </div>
+
+
+                                <div class="modal-footer">
+
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                    
+                    
+                </tbody>
+            </table>
+            <div id="paging-first-datatable"></div>
+            <div id="mymodal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">Add User</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="{{url_for('insert')}}" method="POST">
+
+
+                                <div class="form-group">
+
+                                    <label>Name:</label>
+                                    <input type="text" class="form-control" name="name" required="1">
+
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label>Username:</label>
+                                    <input type="text" class="form-control" name="username" required="1">
+
+
+                                </div>
+
+
+                                <div class="form-group">
+
+
+                                    <label>Email:</label>
+                                    <input type="email" class="form-control" name="email" required="1">
+
+
+                                </div>
+
+                                <label for="admin">Admin</label>
+                                <select  class="form-control model" id="admin" name="admin" style="display: inline-block; width: 150px;">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+
+                                <label for="activated">Activated</label>
+                                <select  class="form-control model" id="avtivated" name="activated" style="display: inline-block; width: 150px;">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+
+                                <div class="form-group">
+
+
+                                    <label>Password:</label>
+                                    <input type="passwprd" class="form-control" name="password" required="1">
+
+
+                                </div>
+
+
+                                <div class="form-group">
+
+
+                                    <button class="btn btn-primary" type="submit">Add Users</button>
+
+
+                                </div>
+
+
+                            </form>
+
+
+                        </div>
+
+
+                        <div class="modal-footer">
+
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            </div>
+
+            
+    
+            
+    
+    
+    </div>
+    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane container fade" id="menu2">
+                <div class="right-box">
+                    <section class="auth-nav">
+                        <section class="auth-link"></section>
+                    </section>
+                    <div class="col overflow-auto align-self-center auth-container2" style="width: 50%; margin-left:10%; margin-right:20% ;height:50% ;margin-top: -180px;">
+                    <div class="container">
+                        {% for article in articles %}
+                        <div style="margin-left: 20%;">
+                            {% if check.id == article.user_id %}
+                            {% for users in alluser %}
+                                {% if  users.id == article.user_id%}
+                                {% if users.isAdmin == "1" %}
+                                    <font color="teal"> <font color="red">[[ ADMIN ]]</font> {{users.name}} </font>
+                                {% else %}
+                                    <font color="teal"> {{users.name}} </font>
+                                {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                                <div class="card" style="width: 18rem; border-color: #25283D; background-color: #618985; color: white;">
+                                    <div class="card-body">
+                                    <p class="card-text">{{article.body | safe}}</p>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            {% else %}
+                            {% for users in alluser %}
+                                {% if  users.id == article.user_id%}
+                                {% if users.isAdmin == "1" %}
+                                <font color="red">[[ ADMIN ]]</font> {{users.name}}
+                                {% else %}
+                                {{users.name}}
+                            {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="card" style="width: 18rem; border-color: #618985">
+                                <div class="card-body">
+                                <p class="card-text">{{article.body | safe}}</p>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+                            {% endif %}
+    
+                            <br>
+                            
+                        </div>
+    
+                        {% endfor %}
+                        <button class="fixed-bottom type btn" onclick="myFunction()" ><i class="bi bi-code" style="color: white;"></i></button>
+                        <div class='fixed-bottom container' style="margin-left: 19%;">
+                            <div id="summer"  style="display: none;">
+                            <form method="post">
+                                
+                                  <div class='form-group' style="display: inline-block; margin-bottom: 0; position: relative;">
+                                    {# including the SummerNote control on the form, from CDN #}
+                                    <textarea id="summernote1" name="body" class='form-control'> </textarea>
+                                    <script>
+                                    $('#summernote1').summernote({
+                                        placeholder: '',
+                                        tabsize: 2,
+                                        height: 100,
+                                        width:1050,
+                                        toolbar: [
+                                        // [groupName, [list of button]]
+                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                                        ['fontsize', ['fontsize']],
+                                        ['color', ['color']],
+                                        ['para', ['ul', 'ol', 'paragraph']],
+                                        ['height', ['height']]
+                                    ]
+                                    });
+                                    </script>
+                                </div>
+                                <button type="submit" name="comment" value="submit" class="fixed-button btn btn-info" style="display: inline-block; background-color: #618985; ">Post</button>
+                            </form>
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="margin-top: 15px ; z-index: 999;">
+                                    <span>{{ message }}</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+                        </div>
+                        </div>
+                        </div>
+                    
+                    </div>
+                
+            </div>
+          </div>
+
+          <div class="tab-pane container fade" id="menu1">
+            <div class="right-box">
+                <div class="col align-self-center auth-container2" style="width: 100%; margin-left:20%; margin-right:20% ;height:100%;margin-top: 10%;">
+                  {% for article in article %}
+                    
+
+                    <div class="card articles" style="width: 18rem; display: inline-block;">
+                      <a href="/article/{{article.id}}">
+                      <img class="card-img-top" src="static/article/{{article.img_name}}" alt="{{article.ing_name}}" style="height: 20rem;">
+  
+                      <div class="card-body">
+                        <p class="card-text">{{article.title | safe}}  </p>
+                    {% for users in alluser %}
+                    {% if users.id == article.user_id %}
+                      <p style="font-size: small; float: right;">BY:  {{users.name}}</p>
+                    {% endif %}
+                    {% endfor %}
+                      </div>
+                    </a>
+                    </div>
+
+                  
+                  {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="tab-pane container fade" id="msg">
+            <div class="right-box">
+                <div class="col align-self-center auth-container2" style="width: 100%; margin-left:20%; margin-right:20% ;height:100%;margin-top: 10%;">
+                  <div class="container">
+                      <div>
+                        
+                        {% for message in messages %}
+                          <div class="card text-center" style="margin-bottom: 5%;">
+                            <div class="card-header">{{message.name}}   :   {{message.email}}</div>
+                            <div class="card-body">
+                              <h5 class="card-title">{{message.subject}}</h5>
+                              <p class="card-text">{{message.message}}</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                {{message.time}}
+                            </div>
+                          </div>
+                            
+                            
+                            
+                            
+                            
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                
+            </div>
+        </div>
+        </div>
+        
+<script>
+    var datatable = new DataTable(document.querySelector('#datatable-admin'), {
+        pageSize: 10,
+        sort: '*',
+        filters: [false, true, true,'select',true,true,'select'],
+        filterText: 'Type to filter... ',
+        pagingDivSelector: "#paging-first-datatable"
+    });
+</script>
+
+<script>
+    function myFunction() {
+  var x = document.getElementById("summer");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+} 
+</script>
+
+    </div>
+</div>
+{% endblock %}

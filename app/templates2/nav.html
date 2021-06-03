@@ -1,0 +1,38 @@
+ 
+ <!-- <nav class="navbar">
+    <ul class="nav">
+      <li id="logo"><a href="/">Upscale.io</a></li>
+      <li class="links"><a href="/about">About</a></li>
+      <li class="links"><a href="/createAccount">Create an account</a></li>
+      <li class="links"><a href="/login">Login</a></li>
+    </ul>
+  </nav> -->
+  <nav class="navbar navbar-expand-lg ">
+    <div class="d-flex flex-grow-1">
+      <a class="navbar-brand" href="/">
+        Upscale.io
+      </a>
+      <div class="w-100 text-right">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+      <ul class="navbar-nav ml-auto flex-nowrap">
+        <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+        {% if session['logged_in'] %}
+        <li class="nav-item"><a href="/profile" class="nav-link"
+            style="border-radius: 12px; border:solid 1px; color:white; background-color: #3A4832; padding-left:18px; padding-right:18px;">{{ session['username'] }}</a>
+        </li>
+        <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+        {% else %}
+        <li class="nav-item"><a href="/register" class="nav-link"
+            style="border-radius: 12px; border:solid 1px; color:white; background-color: #3A4832; padding-left:18px; padding-right:18px;">Create
+            an account</a>
+        </li>
+        <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>

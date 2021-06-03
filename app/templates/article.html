@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Discuss{% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-2" style="background-color: #25283D;position: fixed; z-index: 999; ">
+        <section id="left-container" style="padding: 0;"> 
+            <section  class="d-flex flex-column" >
+                <div style="height: 90vh;">
+                    <div class="auth-container" style="padding-left: 11%; padding-right:10%;">
+                      <header style="color: white; padding-top: 15%;"><h1 style="font-size:31px;font-family: 'Roboto', sans-serif; font-weight: 400; "><a href="/"> <strong style="color:white;">Upscale.io</strong></a></h1>
+                        <div style="margin-top:50px;">
+                            <nav class="tab-nav">
+                              <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                  {% if check.isAdmin == "1" %}
+                                  <a class="nav-link"  href="/admin" style="padding: 0; display: block; font-size: larger;"><i class="bi bi-arrow-left"></i> Back</a>
+                                  {% else %}
+                                    <a class="nav-link"  href="/discuss" style="padding: 0; display: block; font-size: larger;"><i class="bi bi-arrow-left"></i> Back</a>
+                                  {% endif %}
+                                  </li>
+                              
+                              </ul>  
+                           
+                            </nav>
+                        </div>
+                        </header>
+                      </header>
+                    </div>
+            
+                </div>
+            
+        </section>
+    </div>
+    
+    <div class="col-10 rightBar" >
+      <div class="card" style="width: 100%; margin-left: 20%; margin-top: 2%; height: 100%;">
+        <img src="/static/article/{{article.img_name}}" class="figure-img img-fluid over" alt="{{article.img_name}}" style="width: 500vh; height: 300px; object-fit: cover;">
+        <div class="card-body"> 
+          <h5 class="card-title float-left history" style="width: 30%;">{{article.title}}</h5> 
+          {% for users in alluser %}
+                {% if users.id == article.user_id %}
+                      <h4 class="float-right" style="margin-right: 8%;">By: {{users.name}}</h4>
+                {% endif %}
+          {% endfor %}
+          <br><br><br>
+          <p class="card-text">{{article.body | safe}}</p>
+          <br>
+          {% if check.id == article.user_id or check.isAdmin == "1" %}
+          <a href="/article/edit/{{article.id}}" class="btn btn-warning btn-xs">Edit</a>
+          <a href="/article/delete/{{article.id}}" class="btn btn-danger btn-xs">Delete</a>
+          {% endif %}
+        </div>
+      </div>
+
+  </div>
+    
+    
+</div>
+
+
+
+{% endblock %}
+

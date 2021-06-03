@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Forgot Password{% endblock %}
+{% block body %}
+{% if session['logged_in'] %}
+<p>Seems like you're logged in!</p>
+{% else %}
+  <div class="row">
+    <div class="col-5">
+      <nav class="navbar navbar-expand-lg ">
+        <div class="d-flex flex-grow-1">
+          <a class="navbar-brand" href="/">
+            Upscale.io
+          </a>
+        </div>
+      </nav>
+  
+      <div class="jumbotron" style="background-color: transparent; bottom:0; margin-top:450px; margin-left:2%;">
+        <h2 style="color: #324826; font-family: 'Roboto', sans-serif;">Same picture. Better
+          <span style="color: #658554; font-family: 'Roboto', sans-serif;" class="txt-rotate" data-period="2000"
+            data-rotate='[ "Quality.", "Image.", "Resoultion.", "Pixels.", "You." ]'></span>
+        </h2>
+        <h5 class="sub-text">How far would you go to keep</h5>
+        <h5 class="sub-text"> the hope of upscaling?</h5>
+      </div>
+    </div>
+          
+    <div class="col-7 rightBar" >
+      <div class="right_box">
+        <div class="right_top_text">
+          <label style="font-size: 40px; margin-bottom: 40px;">Password </label>
+          <label style="font-size: 21px; margin-bottom: 13px;">Forgot your password?</label>
+          <label style="font-size: 12px;margin-bottom: 40px;">Don’t  worry. Just type in your email ID and we will verify you in a jipee. </label>
+        </div>
+        
+        <form class="form_register" action="/forgot/" method="POST">
+                    <div class="login-form">
+                      <div style="width:100%;">
+                        <label for="username">Username</label>
+                        <input type="username" name="username" >
+                      </div>
+                        <input type="submit" value="Send" class="btn">
+                    </div>
+          </form>
+{% endif %}
+{% endblock %}
+

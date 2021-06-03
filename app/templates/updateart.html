@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}update{% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-2" style="background-color: #25283D;position: fixed; z-index: 999; ">
+        <section id="left-container" style="padding: 0;"> 
+            <section  class="d-flex flex-column" >
+                <div style="height: 90vh;">
+                    <div class="auth-container" style="padding-left: 11%; padding-right:10%;">
+                      <header style="color: white; padding-top: 15%;"><h1 style="font-size:31px;font-family: 'Roboto', sans-serif; font-weight: 400; "><a href="/"> <strong style="color:white;">Upscale.io</strong></a></h1>
+                        <div style="margin-top:50px;">
+                            <nav class="tab-nav">
+                              <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="pill" href="#menu2" style="padding: 0; display: block;font-size: larger; background-color: transparent !important; color: #618985 !important; box-shadow: none;">Update Article</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  href="/discuss" style="padding: 0; display: block; font-size: larger; background-color: transparent !important; color: white;"><i class="bi bi-arrow-left"></i> Back</a>
+                                  </li>
+                              </ul>  
+                           
+                            </nav>
+                        </div>
+                        </header>
+                    </div>
+            
+                </div>
+            
+        </section>
+        </section>
+    </div>
+    
+    <div class="col-10 rightBar" >
+        <div class="col align-self-center auth-container2" style="width: 100%; margin-left:20%; margin-right:20% ;height:100%;margin-top: 10%;">
+        <div class="tab-content">
+
+            <form action="{{ url_for('updateArticle',article_id = article.id) }}" method="post" enctype="multipart/form-data">
+            <div class='form-group'>
+              <label for='title' style="float: left; margin-right: 10px; margin-top: 10px; ">Title</label>
+              
+              <input type='text' class='form-control' id='title' name='title' value="{{article.title}}"  style="width: 40%; float: left; margin-top: 2px;" />
+              <label for='model' style="float: left; margin-left: 10%; margin-right: 10px; margin-top: 10px;">Model</label>
+              
+              <select  class="form-control model" id="chooseModel" name="chooseModel" style="display: inline-block; width: 150px;">
+                <option >RRDB_ESRGAN_x4</option>
+                <option >latest_G</option>
+                <option >30img_95epoch_DIV2K</option>
+            </select>
+            <input  class="float-left" type=file name=file placeholder="file" id="file" style="margin-top: 2%;">
+            <br>
+            <br>
+            </div>
+            <div class='form-group'>
+              {# including the SummerNote control on the form, from CDN #}
+              <label for='summernote'> </label>
+              <textarea id="summernote" name="body" class='form-control'>{{article.body}}</textarea>
+              <script>
+              $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 200,
+                toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['insert', ['link','picture']],
+                        ['misc', ['codeview']]
+                    ]
+                  });
+            </script>
+            </div>
+            <div class='form-group'>
+              {# note we use same name for Save and Cancel buttons, but a different value #}
+              <button type="submit" name="submit" value="submit" class="btn btn-info">Post</button>
+
+            </div>
+            
+          </form>
+          <br>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="margin-top: 15px ; z-index: 999;">
+                                <span>{{ message }}</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+
+      </div>
+    </div>
+
+        
+    </div>
+
+{% endblock %}
+

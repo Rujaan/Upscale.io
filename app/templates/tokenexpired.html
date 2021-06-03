@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-4" style="background-color: #25283D; ">
+        <section id="left-container" style="padding: 0;"> 
+            <section  class="d-flex flex-column" >
+                <div style="height: 90vh;">
+                    <div class="auth-container" style="padding-left: 11%; padding-right:10%;">
+                      <header style="color: white; padding-top: 15%;"><h1 style="font-size:31px;font-family: 'Roboto', sans-serif; font-weight: 400; "><a href="/"> <strong style="color:white;">Upscale.io</strong></a></h1>
+                        <div style="margin-top:50px;">
+                        <h2 class="animate__animated animate__fadeInDown">Same picture. Better <br><span style="color: #618985; font-family: 'Roboto', sans-serif;" class="txt-rotate" data-period="2000"
+                          data-rotate='[ "Quality.", "Image.", "Resoultion.", "Pixels.", "You." ]'></span></h2>
+                        <p class="animate__animated fanimate__adeInUp">How far would you go to keep the hope of upscaling? </p>
+                        <a href="/#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
+                        </div>
+                        </header>
+                      </header>
+                    </div>
+            
+                </div>
+            
+        </section>
+    </div>
+    
+<div class="col-8 rightBar" >
+
+  <div class="right-box">
+    <section class="auth-nav">
+        <section class="auth-link"></section>
+    </section>
+    <div class="col align-self-center auth-container2" style="width: 50%; margin-left:25%; margin-right:20% ;height:100%;">
+    <div class="container">
+        <h2 style="font-size: 20px;"> <strong> Expired</strong></h2>
+        
+    </div>
+    <hr>
+      <div class="container-fluid auth-form">
+        <form class="form_register" action="/login/forgot/" method="POST" >
+          <div class="row form_register2" style="padding-bottom: 12px;">
+           
+              <div >
+               The token seems to be expired :(
+            </div>
+            
+         </div>
+           
+
+
+          <button class="submit-btn" style="margin-top: 18px; padding:6px 80px; background-color:#618985; color:white;"><a href="https://www.gmail.com" style="text-decoration: none; color:white;"> Go to Mail</a></button><div style="margin-top: 20px; font-size:12px; color:#25283D;"> <a href="/register/verification/">Resend Mail</a> </div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="margin-top: 15px ;">
+                <span>{{ message }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+          {% endif %}
+          {% endwith %}
+      
+        </form>
+      </div>
+    </div>
+
+    </div>
+    
+</div>
+{% endblock %}

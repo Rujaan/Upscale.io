@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block body %}
+{% if session['logged_in'] %}
+<p>Seems like you're already registered</p>
+{% else %}
+
+<div class="row">
+    <div class="col-4" style="background-color: #25283D; ">
+        <section id="left-container" style="padding: 0;"> 
+            <section  class="d-flex flex-column" >
+                <div style="height: 90vh;">
+                    <div class="auth-container" style="padding-left: 11%; padding-right:10%;">
+                      <header style="color: white; padding-top: 15%;"><h1 style="font-size:31px;font-family: 'Roboto', sans-serif; font-weight: 400; "><a href="/"> <strong style="color:white;">Upscale.io</strong></a></h1>
+                        <div style="margin-top:50px;">
+                        <h2 class="animate__animated animate__fadeInDown">Same picture. Better <br><span style="color: #618985; font-family: 'Roboto', sans-serif;" class="txt-rotate" data-period="2000"
+                          data-rotate='[ "Quality.", "Image.", "Resoultion.", "Pixels.", "You." ]'></span></h2>
+                        <p class="animate__animated fanimate__adeInUp">How far would you go to keep the hope of upscaling? </p>
+                        <a href="/#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
+                        </div>
+                        </header>
+                      </header>
+                    </div>
+            
+                </div>
+            
+        </section>
+    </div>
+    
+<div class="col-8 rightBar" >
+    <div style="float: right;">Not a member? <a href="/register" style="color: #618985;">Register</a></div>
+  <div class="right-box">
+    <section class="auth-nav">
+        <section class="auth-link"></section>
+    </section>
+    <div class="col align-self-center auth-container2" style="width: 50%; margin-left:25%; margin-right:20% ;height:100%;">
+    <div class="container">
+        <h2 style="font-size: 20px;"> <strong> Log in to Upscale.io</strong></h2>
+        <div class="auth-connection"> <a href="/login/google">G Login with google</a> </div>
+    </div>
+    <div class="divider">Or</div>
+      <div class="container-fluid auth-form">
+        <form class="form_register" action="/login" method="POST" >
+          <div class="row form_register2" style="padding-bottom: 12px;">
+            <div class="col-6" >
+              <div>
+                <label for="username">Username</label>
+                <input type="username" name="username">
+                </div>
+                                
+            </div>
+              <div class="col-6" >
+              <div style="float: left;">
+                <label for="password">Password</label>
+                            <input type="password" name="password">
+              </div>
+              
+            </div>
+            <div style="float: right; margin-top:10px;"><a href="/login/forgot" style="font-size:14px;">Forgot your password?</a> <label style="display: inline-block;font-size:14px;">Don't worry, we gotchu!</label></div>
+          </div>
+         
+
+
+          <input type="submit" value="Log in" class="submit-btn" style="margin-top: 18px; padding:6px 80px; background-color:#618985; color:white;">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="margin-top: 15px ;">
+                <span>{{ message }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+          {% endif %}
+          {% endwith %}
+        </form>
+      </div>
+    </div>
+
+    </div>
+    
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-2" style="background-color: #25283D;position: fixed; z-index: 999; ">
+        <section id="left-container" style="padding: 0;"> 
+            <section  class="d-flex flex-column" >
+                <div style="height: 90vh;">
+                    <div class="auth-container" style="padding-left: 11%; padding-right:10%;">
+                      <header style="color: white; padding-top: 15%;"><h1 style="font-size:31px;font-family: 'Roboto', sans-serif; font-weight: 400; "><a href="/"> <strong style="color:white;">Upscale.io</strong></a></h1>
+                        <div style="margin-top:50px;">
+                            <nav class="tab-nav">
+                              <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                  <a class="nav-link active" data-toggle="pill" href="#home" style="padding: 0; display: block; font-size: larger;">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="pill" href="#menu1" style="padding: 0; display: block;font-size: larger;">Upscale</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link"  href="/discuss" style="padding: 0; display: block;font-size: larger;">Discussion</a>
+                                </li>
+                                <li class="nav-item" id="logout">
+                                    <a href="/logout" class="nav-link" style="padding: 0; display: block;font-size: large;">Log out</a>
+                                </li>
+                              </ul>  
+                            </nav>
+                        </div>
+                        </header>
+                      </header>
+                    </div>
+            
+                </div>
+            
+        </section>
+    </div>
+    
+    <div class="col-10 rightBar" >
+        <div class="tab-content">
+            <div class="tab-pane container active" id="home">
+                <div class="right-box">
+                    <section class="auth-nav">
+                        <section class="auth-link"></section>
+                    </section>
+                    <div class="col align-self-center auth-container2" style="width: 50%; margin-left:20%; margin-right:20% ;height:100%;margin-top: -180px;">
+                    <div class="container">
+                        <h4 class="history"   style="color: #618985;">User info</h4>
+                        <div class="names">
+                            <label>Name : </label> <label>{{session ['username']}}</label> <br>
+                            <label>Email : </label> <label>{{session ['email']}}</label>
+                        </div>
+                        <div class="change">
+                            <p><a href="/profile/username/">Change username</a></p>
+                            <p><a href="/profile/password/">Change password</a></p>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <h4 class="history" style="color: #618985;">My Articles</h4>
+                        <div style="width: 200%;">
+                            {% for article in article %}
+                                {% if article.user_id == check.id %}
+                                <div class="card articles" style="width: 18rem; display: inline-block;">
+                                    <a href="/article/{{article.id}}">
+                                    <img class="card-img-top" src="static/article/{{article.img_name}}" alt="{{article.img_name}} " style="height: 20rem;">
+                    
+                                    <div class="card-body">
+                                      <p class="card-text">{{article.title | safe}}  </p>
+                                      {% for users in alluser %}
+                                      {% if users.id == article.user_id %}
+                                        <p style="font-size: small; float: right;">BY:  {{users.name}}</p>
+                                      {% endif %}
+                                      {% endfor %}
+                                    </div>
+                                  </a>
+                                  </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    </div>
+                    
+                    <div class="col align-self-center auth-container2" style="margin-left:20%; margin-right:10% ;margin-top: 10px;">
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="tab-pane container fade" id="menu1">
+                <div class="right-box">
+                    <section class="auth-nav">
+                        <section class="auth-link"></section>
+                    </section>
+                    <div class="col align-self-center auth-container2" style="width: 100%; margin-left:20%; margin-right:20% ;height:100%;margin-top: -180px;">
+                    <div class="container">
+                        <h4 class="history" style="color: #618985; width: 50%;">Upload a file</h1>
+                        <form method="POST" action="/upload" enctype="multipart/form-data">
+                        <br>
+                        <input type=file name=file placeholder="file" id="file">
+                        <div style="display: inline-block;">
+                            <label for="model">Model</label>
+                            <select  class="form-control model" id="chooseModel" name="chooseModel" style="display: inline-block; width: 150px;">
+                                <option >RRDB_ESRGAN_x4</option>
+                                <option >latest_G</option>
+                                <option >30img_95epoch_DIV2K</option>
+                            </select>
+                        </div>
+                        <br>
+
+                        <input type=submit value=Upload style="background-color: #618985; color: white; float: right;">
+                        </form>
+                        
+                    </div>
+                    <br><br>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="margin-top: 15px ; z-index: 999;">
+                                <span>{{ message }}</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    <br><br>
+                    <h4 class="history" style="color: #618985;width: 50%;">Latest Upload</h4>
+                    <div class="col align-self-center auth-container2" style="margin-right:10% ;margin-top: 10px;">
+
+                        {% for pic in pics %}
+                            {% if  check.id == pic.user_id%}
+                            <div class="card articles" style=" width: 20rem; display:inline-block; margin-left: 0%; border: 0px;">
+                                        <img class="card-img-top" src="/static/output/{{pic.name}}" alt="{{pic.name}}" style="height: 350px; width: 20rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="display: inline-block;">{{pic.name}}</h5> <h12 class="card-title" style="display: inline-block; float: right; font-size: small;">Model: {{pic.model_name}}</h12> <br><br>
+                                            <a href="{{url_for('download', filename=pic.name)}}" class="btn btn-outline-primary">Download</a>
+                                            
+                                        </div>
+                            </div>
+                            {% endif %}
+                          {% endfor %}
+
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="tab-pane container fade" id="menu2">
+                <div class="right-box">
+                    <section class="auth-nav">
+                        <section class="auth-link"></section>
+                    </section>
+                    <div class="col overflow-auto align-self-center auth-container2" style="width: 50%; margin-left:10%; margin-right:20% ;height:50% ;margin-top: -180px;">
+                    <div class="container">
+                        {% for article in articles %}
+                        <div style="margin-left: 20%;">
+                            {% if check.id == article.user_id %}
+                            {% for users in alluser %}
+                                {% if  users.id == article.user_id%}
+                                    <font color="teal"> {{users.name}} </font>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="card" style="width: 18rem; border-color: #25283D; background-color: #618985; color: white;">
+                                    <div class="card-body">
+                                    <p class="card-text">{{article.body | safe}}</p>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            {% else %}
+                            {% for users in alluser %}
+                                {% if  users.id == article.user_id%}
+                                    {{users.name}}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="card" style="width: 18rem; border-color: #618985">
+                                <div class="card-body">
+                                <p class="card-text">{{article.body | safe}}</p>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+                            {% endif %}
+
+                            <br>
+                            
+                        </div>
+
+                        {% endfor %}
+                        <button class="fixed-bottom type btn" onclick="myFunction()" ><i class="bi bi-code" style="color: white;"></i></button>
+                        <div class='fixed-bottom container' style="margin-left: 19%;">
+                            <div id="summer"  style="display: none;">
+                            <form method="post">
+                                
+                                  <div class='form-group' style="display: inline-block; margin-bottom: 0; position: relative;">
+                                    {# including the SummerNote control on the form, from CDN #}
+                                    <textarea id="summernote" name="content" class='form-control'> </textarea>
+                                    <script>
+                                    $('#summernote').summernote({
+                                        placeholder: '',
+                                        tabsize: 2,
+                                        height: 100,
+                                        width:1050,
+                                        toolbar: [
+                                        // [groupName, [list of button]]
+                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                                        ['fontsize', ['fontsize']],
+                                        ['color', ['color']],
+                                        ['para', ['ul', 'ol', 'paragraph']],
+                                        ['height', ['height']]
+                                    ]
+                                    });
+                                    </script>
+                                </div>
+                                <button type="submit" name="submit" value="submit" class="fixed-button btn btn-info" style="display: inline-block; background-color: #618985; ">Post</button>
+                            </form>
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="margin-top: 15px ;">
+                <span>{{ message }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+          {% endif %}
+          {% endwith %}
+                        </div>
+                        </div>
+                        </div>
+                    
+                    </div>
+                
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    
+</div>
+<script>
+    function myFunction() {
+  var x = document.getElementById("summer");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+} 
+</script>
+
+{% endblock %}
+

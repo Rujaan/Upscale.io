@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+<p>name: {{session ['username']}}</p>
+<p>username: {{session ['email']}} </p>
+{% endblock %}
