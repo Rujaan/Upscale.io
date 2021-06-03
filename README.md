@@ -6,6 +6,7 @@
 * Custom Login/Register Form
 * Login/Register Using Google
 * Forgot Password / Reset Password / Change Password with Email
+* Every information stored in the Flask_sql database
 * Custom Admin Panel
 * Contact Use page where Users can send emails
 * Add models from admin
